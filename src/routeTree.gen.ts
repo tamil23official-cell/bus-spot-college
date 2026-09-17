@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalRouteImport } from './routes/_portal'
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as StudentLoginRouteImport } from './routes/student-login'
+import { Route as PortalDashboardRouteImport } from './routes/_portal/dashboard'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/_portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -28,33 +34,49 @@ const StudentLoginRoute = StudentLoginRouteImport.update({
   path: '/student-login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalDashboardRoute = PortalDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => PortalRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/student-login': typeof StudentLoginRoute
+  '/dashboard': typeof PortalDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/student-login': typeof StudentLoginRoute
+  '/dashboard': typeof PortalDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_portal': typeof PortalRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
   '/student-login': typeof StudentLoginRoute
+  '/_portal/dashboard': typeof PortalDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin-login' | '/student-login'
+  fullPaths: '/' | '/admin-login' | '/student-login' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin-login' | '/student-login'
-  id: '__root__' | '/' | '/admin-login' | '/student-login'
+  to: '/' | '/admin-login' | '/student-login' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/_portal'
+    | '/admin-login'
+    | '/student-login'
+    | '/_portal/dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PortalRoute: typeof PortalRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   StudentLoginRoute: typeof StudentLoginRoute
 }
@@ -66,6 +88,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_portal': {
+      id: '/_portal'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin-login': {
@@ -82,11 +111,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_portal/dashboard': {
+      id: '/_portal/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof PortalDashboardRouteImport
+      parentRoute: typeof PortalRoute
+    }
   }
 }
 
+interface PortalRouteChildren {
+  PortalDashboardRoute: typeof PortalDashboardRoute
+}
+
+const PortalRouteChildren: PortalRouteChildren = {
+  PortalDashboardRoute: PortalDashboardRoute,
+}
+
+const PortalRouteWithChildren =
+  PortalRoute._addFileChildren(PortalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PortalRoute: PortalRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   StudentLoginRoute: StudentLoginRoute,
 }
