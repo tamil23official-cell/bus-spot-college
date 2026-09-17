@@ -47,10 +47,10 @@ export function CrudSection<T extends Row>({
   const save = useMutation({
     mutationFn: async (payload: Record<string, unknown>) => {
       if (editingId) {
-        const { error } = await supabase.from(table).update(payload).eq("id", editingId);
+        const { error } = await supabase.from(table).update(payload as never).eq("id", editingId);
         if (error) throw new Error(error.message);
       } else {
-        const { error } = await supabase.from(table).insert(payload);
+        const { error } = await supabase.from(table).insert(payload as never);
         if (error) throw new Error(error.message);
       }
     },
