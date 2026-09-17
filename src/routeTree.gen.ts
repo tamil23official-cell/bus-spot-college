@@ -19,6 +19,7 @@ import { Route as PortalDashboardRouteImport } from './routes/_portal/dashboard'
 import { Route as PortalRoutesRouteImport } from './routes/_portal/routes'
 import { Route as PortalScheduleRouteImport } from './routes/_portal/schedule'
 import { Route as PortalBusBusIdRouteImport } from './routes/_portal/bus.$busId'
+import { Route as ApiPublicInitDemoUsersRouteImport } from './routes/api/public/init-demo-users'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -69,6 +70,11 @@ const PortalBusBusIdRoute = PortalBusBusIdRouteImport.update({
   path: '/bus/$busId',
   getParentRoute: () => PortalRoute,
 } as any)
+const ApiPublicInitDemoUsersRoute = ApiPublicInitDemoUsersRouteImport.update({
+  id: '/api/public/init-demo-users',
+  path: '/api/public/init-demo-users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/routes': typeof PortalRoutesRoute
   '/schedule': typeof PortalScheduleRoute
   '/bus/$busId': typeof PortalBusBusIdRoute
+  '/api/public/init-demo-users': typeof ApiPublicInitDemoUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/routes': typeof PortalRoutesRoute
   '/schedule': typeof PortalScheduleRoute
   '/bus/$busId': typeof PortalBusBusIdRoute
+  '/api/public/init-demo-users': typeof ApiPublicInitDemoUsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/_portal/routes': typeof PortalRoutesRoute
   '/_portal/schedule': typeof PortalScheduleRoute
   '/_portal/bus/$busId': typeof PortalBusBusIdRoute
+  '/api/public/init-demo-users': typeof ApiPublicInitDemoUsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/routes'
     | '/schedule'
     | '/bus/$busId'
+    | '/api/public/init-demo-users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/routes'
     | '/schedule'
     | '/bus/$busId'
+    | '/api/public/init-demo-users'
   id:
     | '__root__'
     | '/'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/_portal/routes'
     | '/_portal/schedule'
     | '/_portal/bus/$busId'
+    | '/api/public/init-demo-users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -147,6 +159,7 @@ export interface RootRouteChildren {
   PortalRoute: typeof PortalRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   StudentLoginRoute: typeof StudentLoginRoute
+  ApiPublicInitDemoUsersRoute: typeof ApiPublicInitDemoUsersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalBusBusIdRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/api/public/init-demo-users': {
+      id: '/api/public/init-demo-users'
+      path: '/api/public/init-demo-users'
+      fullPath: '/api/public/init-demo-users'
+      preLoaderRoute: typeof ApiPublicInitDemoUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -250,6 +270,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalRoute: PortalRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   StudentLoginRoute: StudentLoginRoute,
+  ApiPublicInitDemoUsersRoute: ApiPublicInitDemoUsersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
