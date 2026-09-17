@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortalRouteImport } from './routes/_portal'
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as StudentLoginRouteImport } from './routes/student-login'
+import { Route as PortalAdminRouteImport } from './routes/_portal/admin'
 import { Route as PortalAnnouncementsRouteImport } from './routes/_portal/announcements'
 import { Route as PortalDashboardRouteImport } from './routes/_portal/dashboard'
 import { Route as PortalRoutesRouteImport } from './routes/_portal/routes'
@@ -37,6 +38,11 @@ const StudentLoginRoute = StudentLoginRouteImport.update({
   id: '/student-login',
   path: '/student-login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PortalAdminRoute = PortalAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => PortalRoute,
 } as any)
 const PortalAnnouncementsRoute = PortalAnnouncementsRouteImport.update({
   id: '/announcements',
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/student-login': typeof StudentLoginRoute
+  '/admin': typeof PortalAdminRoute
   '/announcements': typeof PortalAnnouncementsRoute
   '/dashboard': typeof PortalDashboardRoute
   '/routes': typeof PortalRoutesRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
   '/student-login': typeof StudentLoginRoute
+  '/admin': typeof PortalAdminRoute
   '/announcements': typeof PortalAnnouncementsRoute
   '/dashboard': typeof PortalDashboardRoute
   '/routes': typeof PortalRoutesRoute
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   '/_portal': typeof PortalRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
   '/student-login': typeof StudentLoginRoute
+  '/_portal/admin': typeof PortalAdminRoute
   '/_portal/announcements': typeof PortalAnnouncementsRoute
   '/_portal/dashboard': typeof PortalDashboardRoute
   '/_portal/routes': typeof PortalRoutesRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin-login'
     | '/student-login'
+    | '/admin'
     | '/announcements'
     | '/dashboard'
     | '/routes'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin-login'
     | '/student-login'
+    | '/admin'
     | '/announcements'
     | '/dashboard'
     | '/routes'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/_portal'
     | '/admin-login'
     | '/student-login'
+    | '/_portal/admin'
     | '/_portal/announcements'
     | '/_portal/dashboard'
     | '/_portal/routes'
@@ -167,6 +179,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_portal/admin': {
+      id: '/_portal/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof PortalAdminRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/_portal/announcements': {
       id: '/_portal/announcements'
       path: '/announcements'
@@ -206,6 +225,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface PortalRouteChildren {
+  PortalAdminRoute: typeof PortalAdminRoute
   PortalAnnouncementsRoute: typeof PortalAnnouncementsRoute
   PortalDashboardRoute: typeof PortalDashboardRoute
   PortalRoutesRoute: typeof PortalRoutesRoute
@@ -214,6 +234,7 @@ interface PortalRouteChildren {
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalAdminRoute: PortalAdminRoute,
   PortalAnnouncementsRoute: PortalAnnouncementsRoute,
   PortalDashboardRoute: PortalDashboardRoute,
   PortalRoutesRoute: PortalRoutesRoute,
