@@ -10,33 +10,156 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalRouteImport } from './routes/_portal'
+import { Route as AdminLoginRouteImport } from './routes/admin-login'
+import { Route as StudentLoginRouteImport } from './routes/student-login'
+import { Route as PortalAdminRouteImport } from './routes/_portal/admin'
+import { Route as PortalAnnouncementsRouteImport } from './routes/_portal/announcements'
+import { Route as PortalDashboardRouteImport } from './routes/_portal/dashboard'
+import { Route as PortalRoutesRouteImport } from './routes/_portal/routes'
+import { Route as PortalScheduleRouteImport } from './routes/_portal/schedule'
+import { Route as PortalBusBusIdRouteImport } from './routes/_portal/bus.$busId'
+import { Route as ApiPublicInitDemoUsersRouteImport } from './routes/api/public/init-demo-users'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/_portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin-login',
+  path: '/admin-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentLoginRoute = StudentLoginRouteImport.update({
+  id: '/student-login',
+  path: '/student-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalAdminRoute = PortalAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalAnnouncementsRoute = PortalAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalDashboardRoute = PortalDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalRoutesRoute = PortalRoutesRouteImport.update({
+  id: '/routes',
+  path: '/routes',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalScheduleRoute = PortalScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalBusBusIdRoute = PortalBusBusIdRouteImport.update({
+  id: '/bus/$busId',
+  path: '/bus/$busId',
+  getParentRoute: () => PortalRoute,
+} as any)
+const ApiPublicInitDemoUsersRoute = ApiPublicInitDemoUsersRouteImport.update({
+  id: '/api/public/init-demo-users',
+  path: '/api/public/init-demo-users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin-login': typeof AdminLoginRoute
+  '/student-login': typeof StudentLoginRoute
+  '/admin': typeof PortalAdminRoute
+  '/announcements': typeof PortalAnnouncementsRoute
+  '/dashboard': typeof PortalDashboardRoute
+  '/routes': typeof PortalRoutesRoute
+  '/schedule': typeof PortalScheduleRoute
+  '/bus/$busId': typeof PortalBusBusIdRoute
+  '/api/public/init-demo-users': typeof ApiPublicInitDemoUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin-login': typeof AdminLoginRoute
+  '/student-login': typeof StudentLoginRoute
+  '/admin': typeof PortalAdminRoute
+  '/announcements': typeof PortalAnnouncementsRoute
+  '/dashboard': typeof PortalDashboardRoute
+  '/routes': typeof PortalRoutesRoute
+  '/schedule': typeof PortalScheduleRoute
+  '/bus/$busId': typeof PortalBusBusIdRoute
+  '/api/public/init-demo-users': typeof ApiPublicInitDemoUsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_portal': typeof PortalRouteWithChildren
+  '/admin-login': typeof AdminLoginRoute
+  '/student-login': typeof StudentLoginRoute
+  '/_portal/admin': typeof PortalAdminRoute
+  '/_portal/announcements': typeof PortalAnnouncementsRoute
+  '/_portal/dashboard': typeof PortalDashboardRoute
+  '/_portal/routes': typeof PortalRoutesRoute
+  '/_portal/schedule': typeof PortalScheduleRoute
+  '/_portal/bus/$busId': typeof PortalBusBusIdRoute
+  '/api/public/init-demo-users': typeof ApiPublicInitDemoUsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin-login'
+    | '/student-login'
+    | '/admin'
+    | '/announcements'
+    | '/dashboard'
+    | '/routes'
+    | '/schedule'
+    | '/bus/$busId'
+    | '/api/public/init-demo-users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin-login'
+    | '/student-login'
+    | '/admin'
+    | '/announcements'
+    | '/dashboard'
+    | '/routes'
+    | '/schedule'
+    | '/bus/$busId'
+    | '/api/public/init-demo-users'
+  id:
+    | '__root__'
+    | '/'
+    | '/_portal'
+    | '/admin-login'
+    | '/student-login'
+    | '/_portal/admin'
+    | '/_portal/announcements'
+    | '/_portal/dashboard'
+    | '/_portal/routes'
+    | '/_portal/schedule'
+    | '/_portal/bus/$busId'
+    | '/api/public/init-demo-users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PortalRoute: typeof PortalRouteWithChildren
+  AdminLoginRoute: typeof AdminLoginRoute
+  StudentLoginRoute: typeof StudentLoginRoute
+  ApiPublicInitDemoUsersRoute: typeof ApiPublicInitDemoUsersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +171,106 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_portal': {
+      id: '/_portal'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin-login': {
+      id: '/admin-login'
+      path: '/admin-login'
+      fullPath: '/admin-login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student-login': {
+      id: '/student-login'
+      path: '/student-login'
+      fullPath: '/student-login'
+      preLoaderRoute: typeof StudentLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_portal/admin': {
+      id: '/_portal/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof PortalAdminRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/announcements': {
+      id: '/_portal/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof PortalAnnouncementsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/dashboard': {
+      id: '/_portal/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof PortalDashboardRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/routes': {
+      id: '/_portal/routes'
+      path: '/routes'
+      fullPath: '/routes'
+      preLoaderRoute: typeof PortalRoutesRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/schedule': {
+      id: '/_portal/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof PortalScheduleRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/_portal/bus/$busId': {
+      id: '/_portal/bus/$busId'
+      path: '/bus/$busId'
+      fullPath: '/bus/$busId'
+      preLoaderRoute: typeof PortalBusBusIdRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/api/public/init-demo-users': {
+      id: '/api/public/init-demo-users'
+      path: '/api/public/init-demo-users'
+      fullPath: '/api/public/init-demo-users'
+      preLoaderRoute: typeof ApiPublicInitDemoUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface PortalRouteChildren {
+  PortalAdminRoute: typeof PortalAdminRoute
+  PortalAnnouncementsRoute: typeof PortalAnnouncementsRoute
+  PortalDashboardRoute: typeof PortalDashboardRoute
+  PortalRoutesRoute: typeof PortalRoutesRoute
+  PortalScheduleRoute: typeof PortalScheduleRoute
+  PortalBusBusIdRoute: typeof PortalBusBusIdRoute
+}
+
+const PortalRouteChildren: PortalRouteChildren = {
+  PortalAdminRoute: PortalAdminRoute,
+  PortalAnnouncementsRoute: PortalAnnouncementsRoute,
+  PortalDashboardRoute: PortalDashboardRoute,
+  PortalRoutesRoute: PortalRoutesRoute,
+  PortalScheduleRoute: PortalScheduleRoute,
+  PortalBusBusIdRoute: PortalBusBusIdRoute,
+}
+
+const PortalRouteWithChildren =
+  PortalRoute._addFileChildren(PortalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PortalRoute: PortalRouteWithChildren,
+  AdminLoginRoute: AdminLoginRoute,
+  StudentLoginRoute: StudentLoginRoute,
+  ApiPublicInitDemoUsersRoute: ApiPublicInitDemoUsersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
